@@ -148,7 +148,7 @@ Item {
     Rectangle {
         z: 2
         radius: Appearance.rounding.full
-        color: Appearance.colors.colPrimary
+        color: "#ffffff"
         opacity: Config.options.bar.workspaces.shimmer?.glowOpacity ?? 0.9
 
         anchors {
@@ -173,7 +173,7 @@ Item {
             blur: Config.options.bar.workspaces.shimmer?.glowBlur ?? 1.0
             blurMax: Config.options.bar.workspaces.shimmer?.glowBlurMax ?? 32
             colorization: 1.0
-            colorizationColor: Appearance.colors.colPrimary
+            colorizationColor: "#ffffff"
             brightness: Config.options.bar.workspaces.shimmer?.glowBrightness ?? 0.8
         }
     }
