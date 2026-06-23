@@ -219,7 +219,7 @@ Item {
                     propagateComposedEvents: true
                     onEntered: button.isHovered = true
                     onExited: button.isHovered = false
-                    onPressed: Hyprland.dispatch(`workspace ${button.workspaceValue}`)
+                    onPressed: Hyprland.dispatch(`hl.dsp.focus({ workspace = ${button.workspaceValue}})`)
                 }
 
                 Item {
