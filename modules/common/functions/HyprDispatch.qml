@@ -31,9 +31,24 @@ Singleton {
     }
 
     /**
+     * Guards the window selector. An undefined address would be interpolated
+     * as the literal "address:undefined", which Hyprland rejects -- and it
+     * rejects the whole call, making the failure look like a bad argument
+     * elsewhere in the table.
+     */
+    function hasAddress(address, caller) {
+        if (address)
+            return true;
+        console.warn(`[HyprDispatch] ${caller}: no window address, skipping dispatch`);
+        return false;
+    }
+
+    /**
      * Focuses a window by its Hyprland address (e.g. "0x55f0a1b2c3").
      */
     function focusWindow(address) {
+        if (!root.hasAddress(address, "focusWindow"))
+            return;
         Hyprland.dispatch(`hl.dsp.focus({ window = "address:${address}" })`);
     }
 
@@ -41,15 +56,19 @@ Singleton {
      * Closes a window by its Hyprland address.
      */
     function closeWindow(address) {
+        if (!root.hasAddress(address, "closeWindow"))
+            return;
         Hyprland.dispatch(`hl.dsp.window.close({ window = "address:${address}" })`);
     }
 
     /**
-     * Moves a window to a workspace.
-     * There is no `follow` argument in the Lua API, so whether focus follows
-     * the window is whatever the dispatcher does by default.
+     * Moves a window to a workspace without following it there.
+     * `follow = false` is the Lua equivalent of the old movetoworkspacesilent;
+     * without it the dispatcher switches the view to the target workspace.
      */
     function moveWindowToWorkspace(address, workspace) {
-        Hyprland.dispatch(`hl.dsp.window.move({ workspace = ${root.workspaceLiteral(workspace)}, window = "address:${address}" })`);
+        if (!root.hasAddress(address, "moveWindowToWorkspace"))
+            return;
+        Hyprland.dispatch(`hl.dsp.window.move({ workspace = ${root.workspaceLiteral(workspace)}, follow = false, window = "address:${address}" })`);
     }
 }
