@@ -4,7 +4,6 @@ import qs.modules.common.widgets
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
-import Quickshell.Hyprland
 import Quickshell.Services.Pipewire
 import Quickshell.Services.UPower
 
@@ -106,11 +105,11 @@ Item {
             sourceComponent: CircleUtilButton {
                 Layout.alignment: Qt.AlignVCenter
                 onClicked: event => {
-                    if (Appearance.m3colors.darkmode) {
-                        Hyprland.dispatch(`exec ${Directories.wallpaperSwitchScriptPath} --mode light --noswitch`);
-                    } else {
-                        Hyprland.dispatch(`exec ${Directories.wallpaperSwitchScriptPath} --mode dark --noswitch`);
-                    }
+                    // Launched directly rather than through a Hyprland dispatcher: running a
+                    // script needs no compositor involvement, and this keeps it working
+                    // regardless of the dispatcher syntax the running Hyprland expects.
+                    const mode = Appearance.m3colors.darkmode ? "light" : "dark";
+                    Quickshell.execDetached([Directories.wallpaperSwitchScriptPath, "--mode", mode, "--noswitch"]);
                 }
                 MaterialSymbol {
                     horizontalAlignment: Qt.AlignHCenter

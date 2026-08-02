@@ -2,6 +2,7 @@ import qs
 import qs.services
 import qs.modules.common
 import qs.modules.common.widgets
+import qs.modules.common.functions
 import Qt.labs.synchronizer
 import QtQuick
 import QtQuick.Controls
@@ -82,10 +83,10 @@ Scope {
                     GlobalStates.overviewOpen = false;
                 } else if (event.key === Qt.Key_Left) {
                     if (!panelWindow.searchingText)
-                        Hyprland.dispatch("workspace r-1");
+                        HyprDispatch.focusWorkspace("r-1");
                 } else if (event.key === Qt.Key_Right) {
                     if (!panelWindow.searchingText)
-                        Hyprland.dispatch("workspace r+1");
+                        HyprDispatch.focusWorkspace("r+1");
                 }
             }
 

@@ -142,7 +142,7 @@ Item {
                                 onPressed: {
                                     if (root.draggingTargetWorkspace === -1) {
                                         GlobalStates.overviewOpen = false
-                                        Hyprland.dispatch(`workspace ${workspace.workspaceValue}`)
+                                        HyprDispatch.focusWorkspace(workspace.workspaceValue)
                                     }
                                 }
                             }
@@ -266,7 +266,7 @@ Item {
                             window.Drag.active = false
                             root.draggingFromWorkspace = -1
                             if (targetWorkspace !== -1 && targetWorkspace !== windowData?.workspace.id) {
-                                Hyprland.dispatch(`hl.dsp.window.move({ workspace = ${targetWorkspace}, follow = false, window = "address:${window.windowData?.address}" })`)
+                                HyprDispatch.moveWindowToWorkspace(window.windowData?.address, targetWorkspace)
                                 updateWindowPosition.restart()
                             }
                             else {
@@ -284,10 +284,10 @@ Item {
 
                             if (event.button === Qt.LeftButton) {
                                 GlobalStates.overviewOpen = false
-                                Hyprland.dispatch(`focuswindow address:${windowData.address}`)
+                                HyprDispatch.focusWindow(windowData.address)
                                 event.accepted = true
                             } else if (event.button === Qt.MiddleButton) {
-                                Hyprland.dispatch(`closewindow address:${windowData.address}`)
+                                HyprDispatch.closeWindow(windowData.address)
                                 event.accepted = true
                             }
                         }
