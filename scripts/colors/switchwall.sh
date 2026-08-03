@@ -301,6 +301,11 @@ switch() {
         [[ "$term_fg_boost" != "null" && -n "$term_fg_boost" ]] && generate_colors_material_args+=(--term_fg_boost "$term_fg_boost")
     fi
 
+    # When an image yields several candidate source colors, matugen asks which to use and
+    # aborts outright if no terminal is attached - which is the case whenever the shell
+    # launches this script. Pick the most saturated candidate instead of prompting.
+    [[ "${matugen_args[0]}" == "image" ]] && matugen_args+=(--prefer saturation)
+
     matugen "${matugen_args[@]}"
     source "$(eval echo $ILLOGICAL_IMPULSE_VIRTUAL_ENV)/bin/activate"
     python3 "$SCRIPT_DIR/generate_colors_material.py" "${generate_colors_material_args[@]}" \
