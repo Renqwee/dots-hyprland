@@ -105,11 +105,11 @@ Item {
             sourceComponent: CircleUtilButton {
                 Layout.alignment: Qt.AlignVCenter
                 onClicked: event => {
-                    // Launched directly rather than through a Hyprland dispatcher: running a
-                    // script needs no compositor involvement, and this keeps it working
-                    // regardless of the dispatcher syntax the running Hyprland expects.
+                    // Run through a login shell rather than exec'ing the script directly. The
+                    // script sources $ILLOGICAL_IMPULSE_VIRTUAL_ENV and calls matugen and jq from
+                    // the profile PATH, and this is the only form observed to reach them.
                     const mode = Appearance.m3colors.darkmode ? "light" : "dark";
-                    Quickshell.execDetached([Directories.wallpaperSwitchScriptPath, "--mode", mode, "--noswitch"]);
+                    Quickshell.execDetached(["bash", "-lc", `'${Directories.wallpaperSwitchScriptPath}' --mode ${mode} --noswitch`]);
                 }
                 MaterialSymbol {
                     horizontalAlignment: Qt.AlignHCenter
