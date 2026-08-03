@@ -269,6 +269,9 @@ Singleton {
                     property bool useNerdFont: false
                     property JsonObject shimmer: JsonObject {
                         property real glowOpacity: 0.9
+                        property real glowBlur: 1.0
+                        property int glowBlurMax: 32
+                        property real glowBrightness: 0.8
                         property real hoverScale: 1.25
                         property real hoverLift: 4
                         property int hoverDuration: 200

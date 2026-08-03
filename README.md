@@ -27,7 +27,14 @@ cd dots-hyprland
 Then replace the config files with this fork:
 ```bash
 git clone https://github.com/Renqwee/dots-hyprland ~/renqwee-dots
-cp -r ~/renqwee-dots/* ~/.config/quickshell/ii/
+
+# Shell config -> Quickshell. rules.lua and repo metadata are not part of it.
+rsync -a --exclude 'rules.lua' --exclude 'README.md' --exclude '.git' \
+    ~/renqwee-dots/ ~/.config/quickshell/ii/
+
+# Window opacity rules -> Hyprland. Kept here so dots-hyprland updates don't overwrite them.
+mkdir -p ~/.config/hypr/custom
+cp ~/renqwee-dots/rules.lua ~/.config/hypr/custom/
 ```
 
 ## Demo
