@@ -13,6 +13,14 @@ MATUGEN_DIR="$XDG_CONFIG_HOME/matugen"
 terminalscheme="$SCRIPT_DIR/terminal/scheme-base.json"
 
 handle_kde_material_you_colors() {
+    # kde-material-you-colors reloads KWin over D-Bus and dies with an unhandled
+    # DBusException when org.kde.KWin is not activatable, which is every session that
+    # is not Plasma. Nothing downstream depends on it, so skip it outright.
+    if [[ "$XDG_CURRENT_DESKTOP" != *KDE* ]]; then
+        echo "Not a KDE session, skipping kde-material-you-colors"
+        return
+    fi
+
     # Check if Qt app theming is enabled in config
     if [ -f "$SHELL_CONFIG_FILE" ]; then
         enable_qt_apps=$(jq -r '.appearance.wallpaperTheming.enableQtApps' "$SHELL_CONFIG_FILE")
