@@ -4,7 +4,6 @@ import qs.modules.common.widgets
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
-import Quickshell.Hyprland
 import Quickshell.Services.Pipewire
 import Quickshell.Services.UPower
 
@@ -106,11 +105,11 @@ Item {
             sourceComponent: CircleUtilButton {
                 Layout.alignment: Qt.AlignVCenter
                 onClicked: event => {
-                    if (Appearance.m3colors.darkmode) {
-                        Hyprland.dispatch(`exec ${Directories.wallpaperSwitchScriptPath} --mode light --noswitch`);
-                    } else {
-                        Hyprland.dispatch(`exec ${Directories.wallpaperSwitchScriptPath} --mode dark --noswitch`);
-                    }
+                    // Run through a login shell rather than exec'ing the script directly. The
+                    // script sources $ILLOGICAL_IMPULSE_VIRTUAL_ENV and calls matugen and jq from
+                    // the profile PATH, and this is the only form observed to reach them.
+                    const mode = Appearance.m3colors.darkmode ? "light" : "dark";
+                    Quickshell.execDetached(["bash", "-lc", `'${Directories.wallpaperSwitchScriptPath}' --mode ${mode} --noswitch`]);
                 }
                 MaterialSymbol {
                     horizontalAlignment: Qt.AlignHCenter

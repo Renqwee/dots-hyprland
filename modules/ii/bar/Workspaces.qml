@@ -88,9 +88,9 @@ Item {
     WheelHandler {
         onWheel: (event) => {
             if (event.angleDelta.y < 0)
-                Hyprland.dispatch(`workspace r+1`);
+                HyprDispatch.focusWorkspace("r+1");
             else if (event.angleDelta.y > 0)
-                Hyprland.dispatch(`workspace r-1`);
+                HyprDispatch.focusWorkspace("r-1");
         }
         acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
     }
@@ -219,7 +219,7 @@ Item {
                     propagateComposedEvents: true
                     onEntered: button.isHovered = true
                     onExited: button.isHovered = false
-                    onPressed: Hyprland.dispatch(`hl.dsp.focus({ workspace = ${button.workspaceValue}})`)
+                    onPressed: HyprDispatch.focusWorkspace(button.workspaceValue)
                 }
 
                 Item {
